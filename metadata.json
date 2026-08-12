@@ -1,0 +1,6 @@
+{
+  "name": "Yahreah Skin",
+  "description": "Holistic skincare and supplement brand storefront with interactive diagnostic quiz and personalized inside-out routines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

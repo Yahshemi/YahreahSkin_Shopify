@@ -1,0 +1,56 @@
+<footer class="bg-[#212925] text-[#FAF8F3] py-12 sm:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#FAF8F3]/10">
+      
+      <!-- Column 1 Brand -->
+      <div class="md:col-span-5 space-y-4">
+        <span class="font-serif text-2xl font-bold tracking-tight">
+          YAHREAH <span class="text-[#7C9F8A] font-normal italic">Skin</span>
+        </span>
+        <p class="text-xs text-[#FAF8F3]/70 font-sans leading-relaxed max-w-sm">
+          Pioneering holistic inside-out skin renewal through bio-available wild marine collagen, trace minerals, and topical phyto-ceramide serums.
+        </p>
+      </div>
+
+      <!-- Column 2 Links -->
+      <div class="md:col-span-3 space-y-2 text-xs">
+        <h4 class="font-serif font-semibold text-sm text-[#7C9F8A]">Quick Navigation</h4>
+        <ul class="space-y-1.5 text-[#FAF8F3]/80">
+          <li><a href="{{ routes.all_products_collection_url }}" class="hover:text-white">All Formulations</a></li>
+          <li><a href="/collections/inside-supplements" class="hover:text-white">Inside (Ingestible)</a></li>
+          <li><a href="/collections/outside-topicals" class="hover:text-white">Outside (Topical)</a></li>
+          <li><a href="#quiz" class="hover:text-white">Skin Diagnostic Quiz</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 Newsletter -->
+      <div class="md:col-span-4 space-y-3 text-xs">
+        <h4 class="font-serif font-semibold text-sm text-[#7C9F8A]">Join The Radiance Journal</h4>
+        <p class="text-[#FAF8F3]/70">Receive 15% off your first order plus science-backed skin longevity tips.</p>
+        <form action="/contact#contact_form" method="post" class="flex gap-2">
+          <input type="email" placeholder="Enter your email" required class="bg-[#FAF8F3]/10 text-white placeholder-white/50 px-3.5 py-2.5 rounded-full text-xs flex-grow focus:outline-none border border-white/20">
+          <button type="submit" class="bg-[#7C9F8A] hover:bg-[#6a8c78] text-white px-5 py-2.5 rounded-full font-semibold">Join</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#FAF8F3]/50 gap-4">
+      <p>© {{ 'now' | date: "%Y" }} Yahreah Skin. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a href="/policies/privacy-policy" class="hover:text-white">Privacy Policy</a>
+        <a href="/policies/terms-of-service" class="hover:text-white">Terms of Service</a>
+        <a href="/policies/shipping-policy" class="hover:text-white">Shipping & Returns</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "hero_slider": {
+      "type": "hero-slider",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "badge": "Holistic Inside-Out Skincare",
+            "headline_main": "As Within, ",
+            "headline_highlight": "So Without.",
+            "subheadline": "True skin longevity pairs wild marine collagen & 72+ bio-available trace minerals with botanical ceramide serums to repair cellular matrices.",
+            "button_1_text": "Take Routine Diagnostic Quiz",
+            "button_1_link": "#quiz",
+            "button_2_text": "Shop Radiance Systems",
+            "button_2_link": "#products",
+            "image": "",
+            "tag": "Dual Synergy System",
+            "tag_sub": "Marine Collagen + Squalane Serum Duo",
+            "discount_badge": "Save 20%"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "badge": "Bio-Available Ingestibles",
+            "headline_main": "Cellular Renewal ",
+            "headline_highlight": "In Every Sip.",
+            "subheadline": "Unrivaled Type I & III hydrolyzed marine peptides infused with organic hyaluronic acid and fulvic trace minerals.",
+            "button_1_text": "Shop Marine Peptides",
+            "button_1_link": "#products",
+            "button_2_text": "Take Diagnostic Quiz",
+            "button_2_link": "#quiz",
+            "image": "",
+            "tag": "Ingestible Elixir",
+            "tag_sub": "Wild-Caught Atlantic Peptides & Minerals",
+            "discount_badge": "Subscriber Favorite"
+          }
+        }
+      },
+      "block_order": ["slide_1", "slide_2"]
+    },
+    "inside_out_matrix": {
+      "type": "inside-out-matrix"
+    },
+    "product_grid": {
+      "type": "product-grid"
+    },
+    "skin_quiz": {
+      "type": "skin-quiz"
+    },
+    "ethos_story": {
+      "type": "ethos-story"
+    }
+  },
+  "order": [
+    "hero_slider",
+    "inside_out_matrix",
+    "product_grid",
+    "skin_quiz",
+    "ethos_story"
+  ]
+}

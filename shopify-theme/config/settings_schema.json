@@ -1,0 +1,33 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Yahreah Skin OS 2.0",
+    "theme_author": "Yahreah Studio",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://yahreahskin.com",
+    "theme_support_url": "https://yahreahskin.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Accent (Sage Green)",
+        "default": "#7C9F8A"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background (Warm Alabaster)",
+        "default": "#FAF8F3"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Primary Text",
+        "default": "#212925"
+      }
+    ]
+  }
+]

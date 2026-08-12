@@ -1,0 +1,67 @@
+<div class="bg-[#FAF8F3] py-16 sm:py-20 border-b border-[#E2DBD0]" id="products">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Title -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+      <div>
+        <span class="text-xs uppercase tracking-widest font-bold text-[#7C9F8A]">Yahreah Skin Formulations</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#212925] mt-1">Shop Systems & Rituals</h2>
+      </div>
+      
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <a href="{{ routes.all_products_collection_url }}" class="px-4 py-2 rounded-full bg-[#7C9F8A] text-white">All Rituals</a>
+        <a href="/collections/inside-supplements" class="px-4 py-2 rounded-full bg-white text-[#212925] border border-[#E2DBD0] hover:border-[#7C9F8A]">Inside (Ingestible)</a>
+        <a href="/collections/outside-topicals" class="px-4 py-2 rounded-full bg-white text-[#212925] border border-[#E2DBD0] hover:border-[#7C9F8A]">Outside (Topical)</a>
+        <a href="/collections/dual-systems" class="px-4 py-2 rounded-full bg-white text-[#212925] border border-[#E2DBD0] hover:border-[#7C9F8A]">Dual Systems</a>
+      </div>
+    </div>
+
+    <!-- Product Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {% comment %} If liquid products exist in Shopify {% endcomment %}
+      {% if collection.products.size > 0 %}
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        {% comment %} Placeholder sample products for theme preview {% endcomment %}
+        {% render 'product-card', 
+          title: "Wild Marine Collagen + Mineral Elixir",
+          price: "$58.00",
+          category: "INSIDE",
+          badge: "Best Seller",
+          image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop",
+          rating: "4.9",
+          reviews: "340 reviews"
+        %}
+        {% render 'product-card', 
+          title: "Ceramide Barrier Repair Serum",
+          price: "$64.00",
+          category: "OUTSIDE",
+          badge: "Clinical Grade",
+          image: "https://images.unsplash.com/photo-1608248597309-10056a0ae038?q=80&w=800&auto=format&fit=crop",
+          rating: "4.8",
+          reviews: "215 reviews"
+        %}
+        {% render 'product-card', 
+          title: "Radiance Synergy Dual System",
+          price: "$102.00",
+          category: "DUAL SYSTEM",
+          badge: "Save 20%",
+          image: "https://images.unsplash.com/photo-1512290900673-70020192934b?q=80&w=800&auto=format&fit=crop",
+          rating: "5.0",
+          reviews: "580 reviews"
+        %}
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+<div class="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+  <h1 class="font-serif text-3xl font-bold text-[#212925]">Your Shopping Bag</h1>
+  {% if cart.item_count > 0 %}
+    <p class="text-sm text-[#5C6760]">Review your formulations below before proceeding to checkout.</p>
+    <a href="/checkout" class="inline-block bg-[#7C9F8A] text-white font-semibold px-8 py-3.5 rounded-full shadow-md">Proceed to Checkout</a>
+  {% else %}
+    <p class="text-sm text-[#5C6760]">Your bag is currently empty.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="inline-block bg-[#7C9F8A] text-white font-semibold px-8 py-3.5 rounded-full shadow-md">Explore Products</a>
+  {% endif %}
+</div>

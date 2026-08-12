@@ -1,0 +1,22 @@
+/* Yahreah Skin Shopify Theme CSS Customizations */
+:root {
+  --color-sage: #7C9F8A;
+  --color-alabaster: #FAF8F3;
+  --color-sand: #F5F1E8;
+  --color-charcoal: #212925;
+}
+
+body {
+  background-color: var(--color-alabaster);
+  color: var(--color-charcoal);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: 'Lora', serif;
+}
+
+.alabaster-shadow {
+  box-shadow: 0 10px 30px -10px rgba(33, 41, 37, 0.08);
+}

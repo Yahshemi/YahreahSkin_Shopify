@@ -1,0 +1,56 @@
+{% comment %}
+  Product Detail Template for Yahreah Skin
+{% endcomment %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    
+    <!-- Gallery Column -->
+    <div class="lg:col-span-6 space-y-4">
+      <div class="aspect-[4/5] rounded-3xl overflow-hidden bg-[#F5F1E8] border border-[#E2DBD0] shadow-md">
+        <img src="{{ product.featured_image | image_url: width: 1000 }}" alt="{{ product.title }}" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- Purchase Info Column -->
+    <div class="lg:col-span-6 space-y-6">
+      <div>
+        <span class="text-xs uppercase font-bold tracking-widest text-[#7C9F8A] bg-[#EEF4F0] px-3.5 py-1 rounded-full">
+          {{ product.type | default: "Inside-Out Formulation" }}
+        </span>
+        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[#212925] mt-3">
+          {{ product.title }}
+        </h1>
+        <p class="font-serif text-2xl font-bold text-[#7C9F8A] mt-2">
+          {{ product.price | money }}
+        </p>
+      </div>
+
+      <div class="text-sm text-[#5C6760] leading-relaxed">
+        {{ product.description }}
+      </div>
+
+      {% form 'product', product, class: 'space-y-4' %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <button type="submit" class="w-full bg-[#7C9F8A] hover:bg-[#6a8c78] text-white py-4 rounded-full font-semibold text-base shadow-lg transition-all flex items-center justify-center gap-2">
+          <span>Add to Radiance Bag</span>
+          <span>—</span>
+          <span>{{ product.price | money }}</span>
+        </button>
+      {% endform %}
+
+      <div class="pt-6 border-t border-[#E2DBD0] space-y-3 text-xs text-[#5C6760]">
+        <div class="flex items-center gap-2">
+          <span>🌿</span>
+          <span>100% Wild-Caught Peptides & Clean Botanicals</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span>🚚</span>
+          <span>Free USA Shipping over $60 + 30-Day Happiness Guarantee</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

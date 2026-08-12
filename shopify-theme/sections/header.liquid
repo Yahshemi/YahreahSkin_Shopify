@@ -1,0 +1,61 @@
+<header class="sticky top-0 z-40 bg-[#FAF8F3]/95 backdrop-blur-md border-b border-[#E2DBD0]">
+  <!-- Announcement Bar -->
+  <div class="bg-[#7C9F8A] text-[#FAF8F3] text-xs font-medium py-2 px-4 text-center flex items-center justify-center gap-2 tracking-wide">
+    <span>✨ <strong>AS WITHIN, SO WITHOUT</strong> — Free USA Shipping over $60 & 15% off Subscriptions</span>
+  </div>
+
+  <!-- Navbar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Nav Links -->
+      <nav class="hidden lg:flex items-center space-x-7 text-sm font-medium text-[#212925]">
+        <a href="{{ routes.all_products_collection_url }}" class="hover:text-[#7C9F8A] transition-colors py-1">Shop All</a>
+        <a href="/collections/inside-supplements" class="hover:text-[#7C9F8A] transition-colors py-1 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#7C9F8A]"></span>
+          Inside (Supplements)
+        </a>
+        <a href="/collections/outside-topicals" class="hover:text-[#7C9F8A] transition-colors py-1 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#A9C3C2]"></span>
+          Outside (Topicals)
+        </a>
+        <a href="/collections/dual-systems" class="hover:text-[#7C9F8A] transition-colors py-1 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#B7A79D]"></span>
+          Dual Systems
+        </a>
+      </nav>
+
+      <!-- Store Logo -->
+      <a href="{{ routes.root_url }}" class="flex flex-col items-center">
+        <span class="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-[#212925]">
+          YAHREAH <span class="text-[#7C9F8A] font-normal italic">Skin</span>
+        </span>
+        <span class="text-[10px] tracking-[0.25em] uppercase text-[#5C6760] font-sans -mt-1 font-medium">
+          As Within, So Without
+        </span>
+      </a>
+
+      <!-- Right Actions -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <a href="#quiz" class="hidden sm:inline-flex items-center gap-1.5 bg-[#F5F1E8] hover:bg-[#EEF4F0] text-[#2A3B30] text-xs font-semibold px-3.5 py-2 rounded-full border border-[#7C9F8A]/40 transition-all">
+          ✨ Skin Quiz
+        </a>
+
+        <button type="button" class="js-open-cart-drawer relative p-2 rounded-full bg-[#7C9F8A] text-white hover:bg-[#6a8c78] transition-all alabaster-shadow">
+          🛍️
+          <span class="js-cart-count absolute -top-1.5 -right-1.5 bg-[#B7A79D] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#FAF8F3]">
+            {{ cart.item_count }}
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header Navbar",
+  "settings": []
+}
+{% endschema %}

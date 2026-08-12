@@ -1,0 +1,61 @@
+{% comment %}
+  AJAX Cart Drawer Snippet
+{% endcomment %}
+
+<div class="js-cart-drawer-backdrop fixed inset-0 z-50 bg-black/40 backdrop-blur-xs hidden transition-opacity">
+  <div class="js-cart-drawer-panel fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#FAF8F3] shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
+    
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-[#E2DBD0] flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛍️</span>
+        <h3 class="font-serif font-bold text-lg text-[#212925]">Your Radiance Bag</h3>
+      </div>
+      <button type="button" class="js-close-cart-drawer p-2 text-[#212925] hover:text-[#7C9F8A] font-bold text-lg">✕</button>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="bg-[#EEF4F0] px-5 py-3 border-b border-[#7C9F8A]/30 text-xs text-[#2A3B30]">
+      <p class="font-semibold mb-1">🎉 You qualify for FREE Shipping!</p>
+      <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-[#7C9F8A]/20">
+        <div class="bg-[#7C9F8A] h-full w-full"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="js-cart-items-container flex-grow overflow-y-auto p-5 space-y-4">
+      {% if cart.item_count > 0 %}
+        {% for item in cart.items %}
+          <div class="flex gap-4 p-3 bg-white rounded-2xl border border-[#E2DBD0]">
+            <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title }}" class="w-16 h-16 object-cover rounded-xl bg-[#F5F1E8]">
+            <div class="flex-grow text-xs space-y-1">
+              <h4 class="font-serif font-bold text-[#212925]">{{ item.product.title }}</h4>
+              <p class="text-[#5C6760]">{{ item.line_price | money }}</p>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] bg-[#EEF4F0] text-[#7C9F8A] px-2 py-0.5 rounded-full font-bold">Qty: {{ item.quantity }}</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="text-center py-12 space-y-3">
+          <p class="text-4xl">🌿</p>
+          <p class="font-serif font-semibold text-base text-[#212925]">Your bag is empty</p>
+          <p class="text-xs text-[#5C6760]">Discover our inside-out formulations to start your skin journey.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-5 border-t border-[#E2DBD0] bg-white space-y-3">
+      <div class="flex items-center justify-between text-sm font-semibold text-[#212925]">
+        <span>Subtotal</span>
+        <span class="font-serif text-lg text-[#7C9F8A]">{{ cart.total_price | money | default: "$0.00" }}</span>
+      </div>
+      <a href="/checkout" class="w-full bg-[#7C9F8A] hover:bg-[#6a8c78] text-white py-3.5 rounded-full font-semibold text-center block shadow-md transition-all">
+        Proceed to Secure Checkout →
+      </a>
+    </div>
+
+  </div>
+</div>

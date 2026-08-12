@@ -1,0 +1,54 @@
+{% comment %}
+  Product Card Snippet for Yahreah Skin
+{% endcomment %}
+
+<div class="bg-white border border-[#E2DBD0] rounded-3xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group">
+  <!-- Image Frame -->
+  <div class="relative aspect-[4/5] overflow-hidden bg-[#F5F1E8]">
+    <img 
+      src="{{ product.featured_image | default: image }}" 
+      alt="{{ product.title | default: title }}"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+    >
+    
+    {% if badge != blank or product.tags contains 'Bestseller' %}
+      <span class="absolute top-3 left-3 bg-[#7C9F8A] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-xs">
+        {{ badge | default: "Best Seller" }}
+      </span>
+    {% endif %}
+
+    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-[#212925] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-[#E2DBD0]">
+      {{ category | default: "INSIDE" }}
+    </span>
+  </div>
+
+  <!-- Content Details -->
+  <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-[#5C6760] mb-1">
+        <span class="text-amber-500 font-bold">★★★★★</span>
+        <span class="font-semibold text-[#212925]">{{ rating | default: "4.9" }}</span>
+        <span>({{ reviews | default: "210 reviews" }})</span>
+      </div>
+
+      <h3 class="font-serif font-bold text-lg text-[#212925] group-hover:text-[#7C9F8A] transition-colors leading-snug">
+        <a href="{{ product.url | default: '#' }}">{{ product.title | default: title }}</a>
+      </h3>
+
+      <p class="text-xs text-[#5C6760] mt-1 line-clamp-2">
+        {{ product.description | strip_html | truncate: 90 | default: "Hydrolyzed Atlantic marine collagen peptides & 72+ bio-available trace minerals." }}
+      </p>
+    </div>
+
+    <div class="pt-3 border-t border-[#E2DBD0]/60 flex items-center justify-between">
+      <div>
+        <span class="font-bold text-base text-[#212925]">{{ product.price | money | default: price }}</span>
+        <span class="text-[10px] text-[#7C9F8A] block font-medium">Subscribe & Save 15%</span>
+      </div>
+
+      <button type="button" class="js-add-to-cart bg-[#7C9F8A] hover:bg-[#6a8c78] text-white text-xs font-semibold px-4 py-2.5 rounded-full transition-all flex items-center gap-1">
+        <span>Add to Bag</span>
+      </button>
+    </div>
+  </div>
+</div>
