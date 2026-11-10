@@ -1,0 +1,39 @@
+{%- comment -%} Shared by the cart drawer and cart page. {%- endcomment -%}
+<ul class="cart-items">
+  {%- for item in cart.items -%}
+    <li class="cart-item">
+      <a href="{{ item.url }}" class="cart-item__media">
+        {%- if item.image -%}
+          {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.product.title | escape }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </a>
+      <div>
+        <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title | escape }}</a>
+        <p class="cart-item__meta">
+          {%- unless item.product.has_only_default_variant -%}{{ item.variant.title | escape }}<br>{%- endunless -%}
+          {%- if item.selling_plan_allocation -%}{{ item.selling_plan_allocation.selling_plan.name | escape }}<br>{%- endif -%}
+          {%- for p in item.properties -%}
+            {%- unless p.last == blank or p.first contains '_' -%}{{ p.first }}: {{ p.last }}<br>{%- endunless -%}
+          {%- endfor -%}
+          {%- for discount in item.line_level_discount_allocations -%}{{ discount.discount_application.title | escape }}<br>{%- endfor -%}
+        </p>
+        <div class="cart-item__actions">
+          <div class="quantity quantity--small">
+            <button type="button" data-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="{{ 'accessibility.decrease' | t }}">&minus;</button>
+            <input type="number" min="0" value="{{ item.quantity }}" data-line-input data-line="{{ forloop.index }}" aria-label="{{ 'accessibility.quantity' | t }}">
+            <button type="button" data-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="{{ 'accessibility.increase' | t }}">+</button>
+          </div>
+          <button type="button" class="cart-item__remove" data-line-change data-line="{{ forloop.index }}" data-quantity="0" aria-label="{{ 'accessibility.remove' | t: title: item.product.title | escape }}">Remove</button>
+        </div>
+      </div>
+      <div class="cart-item__price">
+        {%- if item.original_line_price > item.final_line_price -%}
+          <div class="price__compare">{{ item.original_line_price | money }}</div>
+        {%- endif -%}
+        {{ item.final_line_price | money }}
+      </div>
+    </li>
+  {%- endfor -%}
+</ul>

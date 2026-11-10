@@ -1,0 +1,50 @@
+<div class="trust-bar">
+  <div class="page-width">
+    <ul class="trust-bar__list">
+      {%- for block in section.blocks -%}
+        <li class="trust-bar__item" {{ block.shopify_attributes }}>
+          <span class="trust-bar__icon">{% render 'icon', name: block.settings.icon %}</span>
+          <div><strong>{{ block.settings.title | escape }}</strong><span>{{ block.settings.text | escape }}</span></div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "leaf",
+          "options": [
+            { "value": "leaf", "label": "Leaf" }, { "value": "drop", "label": "Drop" },
+            { "value": "shield", "label": "Shield" }, { "value": "flag", "label": "Flag" },
+            { "value": "rabbit", "label": "Cruelty free" }, { "value": "truck", "label": "Shipping" },
+            { "value": "heart", "label": "Heart" }, { "value": "sparkle", "label": "Sparkle" },
+            { "value": "refresh", "label": "Subscription" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Formulated in the USA" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Made in cGMP facilities" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust bar",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "flag", "title": "Formulated in the USA", "text": "Made in cGMP facilities" } },
+        { "type": "item", "settings": { "icon": "rabbit", "title": "Cruelty free", "text": "Never tested on animals" } },
+        { "type": "item", "settings": { "icon": "leaf", "title": "Transparent formulas", "text": "Every ingredient listed" } },
+        { "type": "item", "settings": { "icon": "truck", "title": "Free shipping", "text": "On orders over $75" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

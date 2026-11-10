@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page"
+    },
+    "ethos": {
+      "type": "image-with-text",
+      "blocks": {
+        "p1": {
+          "type": "pillar"
+        }
+      },
+      "block_order": [
+        "p1"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "ethos"
+  ]
+}

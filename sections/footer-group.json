@@ -1,0 +1,21 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "main-menu" } },
+        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer" } },
+        "care": { "type": "text", "settings": { "heading": "Customer care", "text": "<p>Questions about your routine? Email us and a real person will reply.</p>" } }
+      },
+      "block_order": ["shop", "help", "care"],
+      "settings": {
+        "brand_name": "Yahreah Skin",
+        "show_newsletter": true,
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

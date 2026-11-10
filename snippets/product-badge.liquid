@@ -1,0 +1,21 @@
+{%- comment -%}
+  Inside / Outside / System label, driven by product tags.
+  Usage: {% render 'product-badge', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign tags = product.tags | join: ',' | downcase
+  if tags contains 'system' or tags contains 'bundle'
+    assign kind = 'system'
+  elsif tags contains 'outside'
+    assign kind = 'outside'
+  elsif tags contains 'inside'
+    assign kind = 'inside'
+  else
+    assign kind = ''
+  endif
+-%}
+{%- if kind != blank -%}
+  <span class="badge{% unless kind == 'inside' %} badge--{{ kind }}{% endunless %}">{%- case kind -%}{%- when 'system' -%}{{ 'products.product.system' | t }}{%- when 'outside' -%}{{ 'products.product.outside' | t }}{%- else -%}{{ 'products.product.inside' | t }}{%- endcase -%}</span>
+{%- elsif product.type != blank -%}
+  <span class="badge">{{ product.type }}</span>
+{%- endif -%}

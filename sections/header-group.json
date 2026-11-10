@@ -1,0 +1,23 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Free shipping on orders over $75 · Formulated in the USA"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "logo_text_main": "Yahreah",
+        "logo_text_accent": " Skin",
+        "highlight_last": true,
+        "mobile_cta_label": "Take the skin quiz"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

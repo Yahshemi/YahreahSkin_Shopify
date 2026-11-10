@@ -1,0 +1,108 @@
+<section class="section section--dark">
+  <div class="page-width" data-tabs>
+    <div class="section-header reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.text != blank -%}<div>{{ section.settings.text }}</div>{%- endif -%}
+    </div>
+
+    <div class="matrix__tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+      {%- for block in section.blocks -%}
+        <button type="button" class="matrix__tab" role="tab" id="MatrixTab-{{ block.id }}" aria-controls="MatrixPanel-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"{% unless forloop.first %} tabindex="-1"{% endunless %} {{ block.shopify_attributes }}>
+          {{ block.settings.concern | escape }}
+        </button>
+      {%- endfor -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      <div class="matrix__panel" role="tabpanel" id="MatrixPanel-{{ block.id }}" aria-labelledby="MatrixTab-{{ block.id }}"{% unless forloop.first %} hidden{% endunless %}>
+        <div class="matrix__grid">
+          <div class="matrix__card matrix__card--inside">
+            <span class="matrix__label">{% render 'icon', name: 'leaf' %} {{ 'products.product.inside' | t }}</span>
+            <h3>{{ block.settings.inside_title | escape }}</h3>
+            <div>{{ block.settings.inside_text }}</div>
+          </div>
+          <div class="matrix__plus" aria-hidden="true">+</div>
+          <div class="matrix__card">
+            <span class="matrix__label">{% render 'icon', name: 'drop' %} {{ 'products.product.outside' | t }}</span>
+            <h3>{{ block.settings.outside_title | escape }}</h3>
+            <div>{{ block.settings.outside_text }}</div>
+          </div>
+        </div>
+        {%- if block.settings.result != blank or block.settings.product != blank -%}
+          <div class="matrix__result">
+            <p>{{ block.settings.result | escape }}</p>
+            {%- if block.settings.product != blank -%}
+              <a href="{{ block.settings.product.url }}" class="button button--primary button--small">Shop {{ block.settings.product.title | escape }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Inside-Out matrix",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "The Yahreah method" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How \"As Within, So Without\" works" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Treating the surface alone is only half the routine. Pick a concern to see how the inside and outside work together.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Skin concern",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "concern", "label": "Concern (tab label)", "default": "Fine lines & firmness" },
+        { "type": "text", "id": "inside_title", "label": "Inside title", "default": "Support from within" },
+        { "type": "richtext", "id": "inside_text", "label": "Inside text", "default": "<p>Daily collagen peptides and vitamin C give your body the building blocks it uses to make its own collagen.*</p>" },
+        { "type": "text", "id": "outside_title", "label": "Outside title", "default": "Protect the surface" },
+        { "type": "richtext", "id": "outside_text", "label": "Outside text", "default": "<p>A lightweight squalane and niacinamide serum hydrates and smooths the look of fine lines.</p>" },
+        { "type": "text", "id": "result", "label": "Result line", "default": "Pair both for a complete inside-out routine." },
+        { "type": "product", "id": "product", "label": "Recommended product or system" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Inside-Out matrix",
+      "blocks": [
+        { "type": "concern" },
+        {
+          "type": "concern",
+          "settings": {
+            "concern": "Dullness & uneven tone",
+            "inside_title": "Hydrate at the source",
+            "inside_text": "<p>Trace mineral drops help you get more out of the water you already drink.*</p>",
+            "outside_title": "Brighten the surface",
+            "outside_text": "<p>Niacinamide visibly evens tone while squalane restores a soft, healthy-looking glow.</p>"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "concern": "Sensitivity & redness",
+            "inside_title": "Calm from within",
+            "inside_text": "<p>Minerals like zinc and magnesium support normal skin function.*</p>",
+            "outside_title": "Rebuild the barrier",
+            "outside_text": "<p>Ceramides and colloidal oat comfort reactive skin and help lock in moisture.</p>"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "concern": "Breakouts",
+            "inside_title": "Balance the gut-skin axis",
+            "inside_text": "<p>Probiotics and zinc support a balanced system and clear-looking skin.*</p>",
+            "outside_title": "Cleanse without stripping",
+            "outside_text": "<p>A pH-balanced gel cleanser lifts impurities while keeping your moisture barrier intact.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,288 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Inside-Out Skincare",
+            "heading": "As Within,",
+            "heading_accent": "So Without.",
+            "text": "<p>Skin care that works from both sides. Ingestible nutrition supports your skin from within, while clean topicals protect and nourish the surface.</p>",
+            "button_label": "Shop the systems",
+            "button_label_2": "Take the skin quiz",
+            "button_link_2": "/pages/skin-quiz",
+            "chip_1_title": "Inside",
+            "chip_1_text": "Daily nutrition for skin",
+            "chip_2_title": "Outside",
+            "chip_2_text": "Barrier-first topicals"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Ingestible collagen",
+            "heading": "Renewal",
+            "heading_accent": "in every sip.",
+            "text": "<p>Marine collagen peptides with vitamin C and hyaluronic acid, mixed into your morning water, coffee or smoothie.*</p>",
+            "button_label": "Shop Inside",
+            "button_label_2": "How it works",
+            "button_link_2": "#inside-out",
+            "chip_1_title": "Easy ritual",
+            "chip_1_text": "One scoop a day",
+            "chip_2_title": "Clean",
+            "chip_2_text": "No fillers or proprietary blends"
+          }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Barrier repair",
+            "heading": "Nourish your",
+            "heading_accent": "surface.",
+            "text": "<p>Ceramides, squalane and cold-pressed botanicals lock in moisture and comfort stressed skin.</p>",
+            "button_label": "Shop Outside",
+            "button_label_2": "Take the skin quiz",
+            "button_link_2": "/pages/skin-quiz",
+            "chip_1_title": "Lipid shield",
+            "chip_1_text": "Ceramides NP, AP, EOP",
+            "chip_2_title": "Gentle",
+            "chip_2_text": "Fragrance free"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": 7
+      }
+    },
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "flag",
+            "title": "Formulated in the USA",
+            "text": "Made in cGMP facilities"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "rabbit",
+            "title": "Cruelty free",
+            "text": "Never tested on animals"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "leaf",
+            "title": "Transparent formulas",
+            "text": "Every ingredient listed"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "refresh",
+            "title": "Subscribe & save",
+            "text": "Pause or cancel any time"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "The Yahreah Catalog",
+        "heading": "Curated inside-out collection",
+        "text": "<p>Supplements for the inside, topicals for the outside, and systems that pair them.</p>",
+        "collection": "all",
+        "products_to_show": 8,
+        "show_view_all": true
+      }
+    },
+    "quiz_cta": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "60-second skin quiz",
+        "heading": "Not sure where your routine starts?",
+        "text": "<p>Answer two quick questions about your skin and get an inside-out routine matched to you.</p>",
+        "button_label": "Find my routine",
+        "button_link": "/pages/skin-quiz",
+        "compact": true
+      }
+    },
+    "matrix": {
+      "type": "inside-out-matrix",
+      "blocks": {
+        "c1": {
+          "type": "concern",
+          "settings": {
+            "concern": "Fine lines & firmness",
+            "inside_title": "Support from within",
+            "inside_text": "<p>Daily collagen peptides and vitamin C give your body the building blocks it uses to make its own collagen.*</p>",
+            "outside_title": "Protect the surface",
+            "outside_text": "<p>A lightweight squalane and niacinamide serum hydrates and smooths the look of fine lines.</p>",
+            "result": "Pair both for a complete inside-out routine."
+          }
+        },
+        "c2": {
+          "type": "concern",
+          "settings": {
+            "concern": "Dullness & uneven tone",
+            "inside_title": "Hydrate at the source",
+            "inside_text": "<p>Trace mineral drops help you get more out of the water you already drink.*</p>",
+            "outside_title": "Brighten the surface",
+            "outside_text": "<p>Niacinamide visibly evens tone while squalane restores a soft, healthy-looking glow.</p>",
+            "result": "Glow that starts in your glass."
+          }
+        },
+        "c3": {
+          "type": "concern",
+          "settings": {
+            "concern": "Sensitivity & redness",
+            "inside_title": "Calm from within",
+            "inside_text": "<p>Minerals like zinc and magnesium support normal skin function.*</p>",
+            "outside_title": "Rebuild the barrier",
+            "outside_text": "<p>Ceramides and colloidal oat comfort reactive skin and help lock in moisture.</p>",
+            "result": "The Calm & Soothe System pairs both."
+          }
+        },
+        "c4": {
+          "type": "concern",
+          "settings": {
+            "concern": "Breakouts",
+            "inside_title": "Balance the gut-skin axis",
+            "inside_text": "<p>Probiotics and zinc support a balanced system and clear-looking skin.*</p>",
+            "outside_title": "Cleanse without stripping",
+            "outside_text": "<p>A pH-balanced gel cleanser lifts impurities while keeping your moisture barrier intact.</p>",
+            "result": "Clear skin is an inside job too."
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "eyebrow": "The Yahreah method",
+        "heading": "How \"As Within, So Without\" works",
+        "text": "<p>Treating the surface alone is only half the routine. Pick a concern to see how the inside and outside work together.</p>"
+      }
+    },
+    "ethos": {
+      "type": "image-with-text",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "title": "Mission",
+            "text": "Curated supplements and serums made to support skin health and everyday well-being."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "title": "Standards",
+            "text": "USA-made formulas with transparent, high-quality ingredients."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "title": "Purpose",
+            "text": "Help you nurture your inner vitality, because healthy skin starts within."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "eyebrow": "Our ethos",
+        "heading": "True beauty radiates from within",
+        "surface": true,
+        "button_label": "Our story",
+        "button_link": "/pages/about"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "eyebrow": "Real results",
+        "heading": "What customers are saying"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How long until I see results?",
+            "answer": "<p>Skin renews on roughly a monthly cycle, so give a consistent routine 4 to 8 weeks.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I use the supplements and topicals separately?",
+            "answer": "<p>Yes. Each product works on its own. The systems pair them for a complete inside-out routine.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I pause or cancel a subscription?",
+            "answer": "<p>Yes, any time from your account.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "newsletter": {
+      "type": "rich-text",
+      "settings": {
+        "style": "dark",
+        "eyebrow": "Join the ritual",
+        "heading": "Skin tips that skip the fluff",
+        "text": "<p>Routines, ingredient breakdowns and early access to new launches.</p>",
+        "show_newsletter": true
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "trust",
+    "featured",
+    "quiz_cta",
+    "matrix",
+    "ethos",
+    "testimonials",
+    "faq",
+    "newsletter"
+  ]
+}

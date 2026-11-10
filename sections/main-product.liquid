@@ -1,0 +1,280 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured = current_variant.featured_media | default: product.featured_media
+-%}
+<div class="page-width" data-product-root>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a>
+    {%- if collection -%} / <a href="{{ collection.url }}">{{ collection.title | escape }}</a>{%- endif -%}
+    / <span aria-current="page">{{ product.title | escape }}</span>
+  </nav>
+
+  <div class="product">
+    {%- comment -%} Gallery {%- endcomment -%}
+    <div class="product__gallery">
+      <div class="product__main-media">
+        {%- for media in product.media -%}
+          {%- if forloop.first -%}{%- assign loading = 'eager' -%}{%- else -%}{%- assign loading = 'lazy' -%}{%- endif -%}
+          <div data-media-id="{{ media.id }}" style="height:100%"{% if featured and media.id != featured.id %} hidden{% elsif featured == blank and forloop.first == false %} hidden{% endif %}>
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {{ media | image_url: width: 1400 | image_tag:
+                  widths: '500, 800, 1100, 1400',
+                  sizes: '(min-width: 990px) 55vw, 100vw',
+                  loading: loading,
+                  alt: media.alt | default: product.title
+                }}
+              {%- when 'video' -%}
+                {{ media | video_tag: controls: true, image_size: '1400x' }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag }}
+              {%- else -%}
+                {{ media | media_tag }}
+            {%- endcase -%}
+          </div>
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endfor -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="product__thumbs">
+          {%- for media in product.media -%}
+            <button type="button" class="product__thumb" data-thumb="{{ media.id }}" aria-label="Show image {{ forloop.index }}" aria-current="{% if featured and media.id == featured.id %}true{% else %}false{% endif %}">
+              {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Info {%- endcomment -%}
+    <div class="product__info">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            {% render block %}
+
+          {%- when 'title' -%}
+            <div {{ block.shopify_attributes }}>
+              {% render 'product-badge', product: product %}
+              <h1 class="product__title">{{ product.title | escape }}</h1>
+              {%- if product.metafields.custom.tagline != blank -%}
+                <p class="product__tagline" style="margin:0">{{ product.metafields.custom.tagline }}</p>
+              {%- endif -%}
+              <div style="margin-top:.75rem">{% render 'rating', product: product %}</div>
+            </div>
+
+          {%- when 'price' -%}
+            <div {{ block.shopify_attributes }}>
+              {% render 'price', product: product, variant: current_variant, large: true %}
+              <p class="product__tax">
+                {%- if cart.taxes_included -%}{{ 'products.product.tax_included' | t }} {% endif -%}
+                {{ 'products.product.shipping_at_checkout' | t }}
+              </p>
+            </div>
+
+          {%- when 'text' -%}
+            <div class="rte subtle" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
+            {%- endif -%}
+
+          {%- when 'inside_outside' -%}
+            {%- if product.metafields.custom.inside_benefit != blank or product.metafields.custom.outside_benefit != blank -%}
+              <div class="inside-outside" {{ block.shopify_attributes }}>
+                {%- if product.metafields.custom.inside_benefit != blank -%}
+                  <div class="inside-outside__item">
+                    <h4>{{ 'products.product.inside' | t }}</h4>
+                    <p>{{ product.metafields.custom.inside_benefit }}</p>
+                  </div>
+                {%- endif -%}
+                {%- if product.metafields.custom.outside_benefit != blank -%}
+                  <div class="inside-outside__item inside-outside__item--outside">
+                    <h4>{{ 'products.product.outside' | t }}</h4>
+                    <p>{{ product.metafields.custom.outside_benefit }}</p>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'buy_buttons' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- form 'product', product, data-product-form: '', data-cart-type: settings.cart_type, novalidate: 'novalidate' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+                <input type="hidden" name="selling_plan" value="{% if product.requires_selling_plan %}{{ product.selected_or_first_available_selling_plan_allocation.selling_plan.id }}{% endif %}">
+
+                {%- unless product.has_only_default_variant -%}
+                  {%- for option in product.options_with_values -%}
+                    <fieldset class="option-group" data-option-index="{{ forloop.index0 }}" style="margin-bottom:1.25rem">
+                      <legend>{{ option.name | escape }}</legend>
+                      <div class="option-group__values">
+                        {%- for value in option.values -%}
+                          <input type="radio" id="Opt-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" name="option-{{ forloop.parentloop.index0 }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+                          <label for="Opt-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}">{{ value | escape }}</label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {%- endfor -%}
+                {%- endunless -%}
+
+                {%- if product.selling_plan_groups.size > 0 -%}
+                  <div class="purchase-options" style="margin-bottom:1.25rem">
+                    {%- unless product.requires_selling_plan -%}
+                      <label class="purchase-option">
+                        <input type="radio" name="purchase_type" value="one_time" checked>
+                        <span class="purchase-option__label">{{ 'products.product.one_time' | t }}</span>
+                      </label>
+                    {%- endunless -%}
+                    <label class="purchase-option">
+                      <input type="radio" name="purchase_type" value="subscription"{% if product.requires_selling_plan %} checked{% endif %}>
+                      <span class="purchase-option__label">
+                        {{ 'products.product.subscribe' | t }}
+                        {%- assign first_plan = product.selling_plan_groups.first.selling_plans.first -%}
+                        {%- if first_plan.price_adjustments.first.value_type == 'percentage' -%}
+                          <small>Save {{ first_plan.price_adjustments.first.value }}% on every delivery</small>
+                        {%- endif -%}
+                        <select class="select" data-selling-plan-select aria-label="Delivery frequency"{% unless product.requires_selling_plan %} disabled{% endunless %}>
+                          {%- for group in product.selling_plan_groups -%}
+                            {%- for plan in group.selling_plans -%}
+                              <option value="{{ plan.id }}">{{ plan.name | escape }}</option>
+                            {%- endfor -%}
+                          {%- endfor -%}
+                        </select>
+                      </span>
+                    </label>
+                  </div>
+                {%- endif -%}
+
+                <div class="buy-row">
+                  {%- if block.settings.show_quantity -%}
+                    <div class="quantity">
+                      <button type="button" data-qty-step="-1" aria-label="{{ 'accessibility.decrease' | t }}">&minus;</button>
+                      <input type="number" name="quantity" value="1" min="1" aria-label="{{ 'accessibility.quantity' | t }}">
+                      <button type="button" data-qty-step="1" aria-label="{{ 'accessibility.increase' | t }}">+</button>
+                    </div>
+                  {%- endif -%}
+                  <button type="submit" class="button button--primary"{% unless current_variant.available %} disabled{% endunless %}>
+                    {%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+                  </button>
+                </div>
+                {%- if block.settings.show_dynamic_checkout -%}
+                  <div style="margin-top:.75rem">{{ form | payment_button }}</div>
+                {%- endif -%}
+                <p class="product-form__error" data-form-error role="alert" hidden></p>
+              {%- endform -%}
+
+              <script type="application/json" data-variants-json>
+                [
+                  {%- for v in product.variants -%}
+                    {
+                      "id": {{ v.id }},
+                      "available": {{ v.available | json }},
+                      "options": {{ v.options | json }},
+                      "price": {{ v.price | money | json }},
+                      "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %},
+                      "media_id": {{ v.featured_media.id | json }}
+                    }{% unless forloop.last %},{% endunless %}
+                  {%- endfor -%}
+                ]
+              </script>
+            </div>
+
+          {%- when 'benefits' -%}
+            <ul class="product__benefits" {{ block.shopify_attributes }}>
+              {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
+              {%- for item in items -%}
+                {%- assign clean = item | strip -%}
+                {%- if clean != blank -%}<li>{% render 'icon', name: 'shield' %} {{ clean | escape }}</li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'collapsible' -%}
+            {%- liquid
+              assign body = block.settings.content
+              assign is_metafield = false
+              if block.settings.source == 'ingredients'
+                assign body = product.metafields.custom.ingredients
+                assign is_metafield = true
+              elsif block.settings.source == 'how_to_use'
+                assign body = product.metafields.custom.how_to_use
+                assign is_metafield = true
+              elsif block.settings.source == 'page' and block.settings.page != blank
+                assign body = block.settings.page.content
+              endif
+            -%}
+            {%- if body != blank -%}
+              <div class="accordion" {{ block.shopify_attributes }}>
+                <details{% if block.settings.open %} open{% endif %}>
+                  <summary>{{ block.settings.heading | escape }}</summary>
+                  <div class="accordion__content rte">{%- if is_metafield -%}{{ body | metafield_tag }}{%- else -%}{{ body }}{%- endif -%}</div>
+                </details>
+              </div>
+            {%- endif -%}
+
+          {%- when 'share' -%}
+            <div {{ block.shopify_attributes }} style="font-size:.875rem">
+              <a class="link" href="https://www.pinterest.com/pin/create/button/?url={{ request.origin | append: product.url | url_encode }}&description={{ product.title | url_encode }}" target="_blank" rel="noopener">Pinterest</a> ·
+              <a class="link" href="https://www.facebook.com/sharer/sharer.php?u={{ request.origin | append: product.url | url_encode }}" target="_blank" rel="noopener">Facebook</a>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "description", "name": "Description", "limit": 1 },
+    {
+      "type": "text", "name": "Text",
+      "settings": [{ "type": "richtext", "id": "text", "label": "Text", "default": "<p>Text</p>" }]
+    },
+    {
+      "type": "inside_outside", "name": "Inside / Outside benefits", "limit": 1,
+      "settings": [{ "type": "paragraph", "content": "Fill the product metafields custom.inside_benefit and custom.outside_benefit." }]
+    },
+    {
+      "type": "buy_buttons", "name": "Buy buttons", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_quantity", "label": "Show quantity selector", "default": true },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show Shop Pay / Apple Pay buttons", "default": true },
+        { "type": "paragraph", "content": "Subscribe & save options appear automatically once a subscription app (Shopify Subscriptions, Recharge, etc.) is set up on the product." }
+      ]
+    },
+    {
+      "type": "benefits", "name": "Benefit list", "limit": 1,
+      "settings": [{ "type": "textarea", "id": "items", "label": "Items (one per line)", "default": "Formulated in the USA\nCruelty free\nFree shipping over $75" }]
+    },
+    {
+      "type": "collapsible", "name": "Collapsible tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Ingredients" },
+        {
+          "type": "select", "id": "source", "label": "Content source", "default": "ingredients",
+          "options": [
+            { "value": "ingredients", "label": "Product metafield: custom.ingredients" },
+            { "value": "how_to_use", "label": "Product metafield: custom.how_to_use" },
+            { "value": "text", "label": "Text below" },
+            { "value": "page", "label": "Page" }
+          ]
+        },
+        { "type": "richtext", "id": "content", "label": "Text" },
+        { "type": "page", "id": "page", "label": "Page" },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    },
+    { "type": "share", "name": "Share", "limit": 1 }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,62 @@
+{%- comment -%}
+  Usage: {% render 'product-card', product: product, show_tagline: true %}
+  Tagline comes from the product metafield custom.tagline if it exists.
+{%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign image = product.featured_media
+  assign second = product.media[1]
+-%}
+<article class="card reveal">
+  <div class="card__media">
+    {%- if image -%}
+      {{ image | image_url: width: 900 | image_tag:
+        loading: 'lazy',
+        widths: '300, 450, 600, 900',
+        sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+        alt: image.alt | default: product.title
+      }}
+      {%- if settings.card_show_secondary_image and second and second.media_type == 'image' -%}
+        {{ second | image_url: width: 900 | image_tag:
+          loading: 'lazy',
+          class: 'card__image--secondary',
+          widths: '300, 450, 600, 900',
+          sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+          alt: ''
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+    <div class="card__badges">
+      {%- if settings.card_show_type -%}{% render 'product-badge', product: product %}{%- endif -%}
+      {%- if product.available == false -%}
+        <span class="badge badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif variant.compare_at_price > variant.price -%}
+        <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="card__body">
+    <h3 class="card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+    {%- if product.metafields.custom.tagline != blank -%}
+      <p class="card__tagline">{{ product.metafields.custom.tagline }}</p>
+    {%- endif -%}
+    {% render 'rating', product: product %}
+
+    <div class="card__footer">
+      {% render 'price', product: product %}
+      {%- if settings.card_quick_add -%}
+        {%- if product.has_only_default_variant and product.available and product.requires_selling_plan == false -%}
+          {%- form 'product', product, data-product-form: '', data-cart-type: settings.cart_type -%}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <button type="submit" class="button button--small button--primary">{{ 'products.product.add_to_cart' | t }}</button>
+          {%- endform -%}
+        {%- else -%}
+          <a href="{{ product.url }}" class="button button--small button--secondary">{{ 'products.product.view_details' | t }}</a>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,132 @@
+{%- liquid
+  assign results = section.blocks | where: 'type', 'result'
+  assign types = section.blocks | where: 'type', 'skin_type'
+  if types.size > 0
+    assign total_steps = 3
+  else
+    assign total_steps = 2
+  endif
+-%}
+<section class="section section--surface">
+  <div class="page-width">
+    <div class="section-header">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>{%- endif -%}
+      <h1 class="h2">{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.text != blank -%}<div>{{ section.settings.text }}</div>{%- endif -%}
+    </div>
+
+    <div class="quiz" data-quiz>
+      <div class="quiz__progress" aria-hidden="true"><span></span></div>
+
+      {%- comment -%} Step 1: concern {%- endcomment -%}
+      <div class="quiz__step" data-quiz-step="concern">
+        <span class="quiz__step-label">{{ 'quiz.step' | t: current: 1, total: total_steps }}</span>
+        <h2 class="h3" style="margin-top:.5rem">{{ section.settings.q1 | escape }}</h2>
+        <div class="quiz__options">
+          {%- for block in results -%}
+            <button type="button" class="quiz__option" data-result="{{ forloop.index0 }}" data-quiz-next="{% if types.size > 0 %}type{% else %}result{% endif %}" {{ block.shopify_attributes }}>
+              <strong>{{ block.settings.concern | escape }}</strong>
+              {%- if block.settings.concern_text != blank -%}<span>{{ block.settings.concern_text | escape }}</span>{%- endif -%}
+            </button>
+          {%- else -%}
+            <p class="subtle">Add "Result" blocks in the theme editor to build the quiz.</p>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} Step 2: skin type (optional) {%- endcomment -%}
+      {%- if types.size > 0 -%}
+        <div class="quiz__step" data-quiz-step="type" hidden>
+          <span class="quiz__step-label">{{ 'quiz.step' | t: current: 2, total: total_steps }}</span>
+          <h2 class="h3" style="margin-top:.5rem">{{ section.settings.q2 | escape }}</h2>
+          <div class="quiz__options">
+            {%- for block in types -%}
+              <button type="button" class="quiz__option" data-quiz-next="result" {{ block.shopify_attributes }}>
+                <strong>{{ block.settings.label | escape }}</strong>
+                {%- if block.settings.text != blank -%}<span>{{ block.settings.text | escape }}</span>{%- endif -%}
+              </button>
+            {%- endfor -%}
+          </div>
+          <div class="quiz__nav"><button type="button" class="quiz__back" data-quiz-back>&larr; {{ 'quiz.back' | t }}</button></div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Results {%- endcomment -%}
+      {%- for block in results -%}
+        <div class="quiz__step" data-quiz-step="result-{{ forloop.index0 }}" hidden>
+          <span class="quiz__step-label">{{ 'quiz.your_routine' | t }}</span>
+          <h2 class="h3" style="margin-top:.5rem">{{ block.settings.result_title | escape }}</h2>
+          <div class="quiz__result-grid">
+            <div>
+              {%- if block.settings.product != blank -%}
+                {% render 'product-card', product: block.settings.product %}
+              {%- endif -%}
+            </div>
+            <div>
+              <div class="rte subtle">{{ block.settings.result_text }}</div>
+              {%- if block.settings.product != blank -%}
+                <a href="{{ block.settings.product.url }}" class="button button--primary" style="margin-top:1.25rem">{{ 'products.product.view_details' | t }} {% render 'icon', name: 'arrow' %}</a>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="quiz__nav">
+            <button type="button" class="quiz__back" data-quiz-back>&larr; {{ 'quiz.back' | t }}</button>
+            <button type="button" class="quiz__back" data-quiz-restart>{{ 'quiz.restart' | t }}</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Skin quiz",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Routine finder" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your inside-out routine" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Two quick questions. One routine built for your skin.</p>" },
+    { "type": "text", "id": "q1", "label": "Question 1", "default": "What's your main skin concern right now?" },
+    { "type": "text", "id": "q2", "label": "Question 2", "default": "How would you describe your skin type?" },
+    { "type": "paragraph", "content": "Each \"Result\" block is one answer to question 1 and the product it recommends. \"Skin type\" blocks add question 2 (optional)." }
+  ],
+  "blocks": [
+    {
+      "type": "result",
+      "name": "Result",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "concern", "label": "Answer (concern)", "default": "Fine lines & loss of firmness" },
+        { "type": "text", "id": "concern_text", "label": "Answer description", "default": "Lost bounce, sagging or expression lines." },
+        { "type": "text", "id": "result_title", "label": "Result title", "default": "Your routine: The Firm & Renew System" },
+        { "type": "richtext", "id": "result_text", "label": "Result text", "default": "<p>Start with daily collagen peptides inside and a squalane and niacinamide serum outside. Use both every day for 8 weeks.</p>" },
+        { "type": "product", "id": "product", "label": "Recommended product or system" }
+      ]
+    },
+    {
+      "type": "skin_type",
+      "name": "Skin type",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Answer", "default": "Dry" },
+        { "type": "text", "id": "text", "label": "Description", "default": "Feels tight through the day." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skin quiz",
+      "blocks": [
+        { "type": "result" },
+        { "type": "result", "settings": { "concern": "Dullness & uneven tone", "concern_text": "Tired-looking skin, lack of glow, dark spots.", "result_title": "Your routine: The Radiance System", "result_text": "<p>Trace mineral drops in your water inside, and a brightening serum outside.</p>" } },
+        { "type": "result", "settings": { "concern": "Sensitivity & redness", "concern_text": "Reactive skin, flushing, stinging.", "result_title": "Your routine: The Calm & Soothe System", "result_text": "<p>Minerals inside and a ceramide barrier cream outside to comfort reactive skin.</p>" } },
+        { "type": "result", "settings": { "concern": "Breakouts", "concern_text": "Clogged pores, jawline spots, excess oil.", "result_title": "Your routine: The Clear Balance System", "result_text": "<p>Gut-skin capsules inside and a gentle gel cleanser outside.</p>" } },
+        { "type": "skin_type", "settings": { "label": "Dry", "text": "Feels tight through the day." } },
+        { "type": "skin_type", "settings": { "label": "Combination", "text": "Oily T-zone, normal or dry cheeks." } },
+        { "type": "skin_type", "settings": { "label": "Oily", "text": "Shiny within a few hours of cleansing." } },
+        { "type": "skin_type", "settings": { "label": "Sensitive", "text": "Reacts easily to fragrance or strong actives." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

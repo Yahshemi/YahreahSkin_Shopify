@@ -1,0 +1,110 @@
+{%- liquid
+  assign menu_blocks = section.blocks | where: 'type', 'menu'
+-%}
+<footer class="site-footer" style="--footer-cols: {{ menu_blocks.size | at_least: 1 }}">
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div>
+        <span class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</span>
+        {%- if section.settings.brand_text != blank -%}
+          <div class="rte">{{ section.settings.brand_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_newsletter -%}
+          {%- form 'customer', id: 'FooterNewsletter', class: 'newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            {%- if form.posted_successfully? -%}
+              <p class="form-message form-message--success" style="width:100%">{{ 'newsletter.success' | t }}</p>
+            {%- else -%}
+              <label for="FooterNewsletterEmail" class="visually-hidden">{{ 'newsletter.email' | t }}</label>
+              <input id="FooterNewsletterEmail" class="input" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'newsletter.email' | t }}">
+              <button type="submit" class="button button--primary">{{ 'newsletter.subscribe' | t }}</button>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
+
+        <div class="site-footer__social">
+          {%- assign socials = 'instagram,tiktok,facebook,youtube,pinterest' | split: ',' -%}
+          {%- for s in socials -%}
+            {%- assign key = 'social_' | append: s -%}
+            {%- if settings[key] != blank -%}
+              <a href="{{ settings[key] }}" target="_blank" rel="noopener" aria-label="{{ s | capitalize }}">{% render 'icon', name: s %}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <div {{ block.shopify_attributes }}>
+              <h2>{{ block.settings.heading | default: block.settings.menu.title }}</h2>
+              <ul>
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- when 'text' -%}
+            <div {{ block.shopify_attributes }}>
+              <h2>{{ block.settings.heading }}</h2>
+              <div class="rte">{{ block.settings.text }}</div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.disclaimer != blank -%}
+      <div class="site-footer__disclaimer rte">{{ section.settings.disclaimer }}</div>
+    {%- endif -%}
+
+    <div class="site-footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. {{ powered_by_link }}</span>
+      {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <ul class="payment-icons" aria-label="Payment methods">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Yahreah Skin" },
+    { "type": "richtext", "id": "brand_text", "label": "Brand text", "default": "<p>As within, so without. Inside-out skincare pairing ingestible nutrition with clean topicals.</p>" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show email signup", "default": true },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Supplement disclaimer",
+      "default": "<p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>",
+      "info": "Required in the US on sites that sell dietary supplements with structure/function claims."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Customer care" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Questions about your routine? Email us and a real person will reply.</p>" }
+      ]
+    }
+  ]
+}
+{% endschema %}

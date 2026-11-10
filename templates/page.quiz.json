@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "main": {
+      "type": "skin-quiz",
+      "blocks": {
+        "r1": {
+          "type": "result"
+        },
+        "r2": {
+          "type": "result",
+          "settings": {
+            "concern": "Dullness & uneven tone",
+            "concern_text": "Tired-looking skin, lack of glow, dark spots.",
+            "result_title": "Your routine: The Radiance System",
+            "result_text": "<p>Trace mineral drops in your water inside, and a brightening serum outside.</p>"
+          }
+        },
+        "r3": {
+          "type": "result",
+          "settings": {
+            "concern": "Sensitivity & redness",
+            "concern_text": "Reactive skin, flushing, stinging.",
+            "result_title": "Your routine: The Calm & Soothe System",
+            "result_text": "<p>Minerals inside and a ceramide barrier cream outside to comfort reactive skin.</p>"
+          }
+        },
+        "r4": {
+          "type": "result",
+          "settings": {
+            "concern": "Breakouts",
+            "concern_text": "Clogged pores, jawline spots, excess oil.",
+            "result_title": "Your routine: The Clear Balance System",
+            "result_text": "<p>Gut-skin capsules inside and a gentle gel cleanser outside.</p>"
+          }
+        },
+        "k1": {
+          "type": "skin_type",
+          "settings": {
+            "label": "Dry",
+            "text": "Feels tight through the day."
+          }
+        },
+        "k2": {
+          "type": "skin_type",
+          "settings": {
+            "label": "Combination",
+            "text": "Oily T-zone, normal or dry cheeks."
+          }
+        },
+        "k3": {
+          "type": "skin_type",
+          "settings": {
+            "label": "Oily",
+            "text": "Shiny within a few hours of cleansing."
+          }
+        },
+        "k4": {
+          "type": "skin_type",
+          "settings": {
+            "label": "Sensitive",
+            "text": "Reacts easily to fragrance or strong actives."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "k1",
+        "k2",
+        "k3",
+        "k4"
+      ]
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question"
+        }
+      },
+      "block_order": [
+        "q1"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

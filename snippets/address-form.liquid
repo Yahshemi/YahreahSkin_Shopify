@@ -1,0 +1,23 @@
+{%- comment -%} Usage: {% render 'address-form', form: form, prefix: 'New' %} {%- endcomment -%}
+<div class="grid grid--2" style="gap:0 1rem">
+  <div class="field"><label for="{{ prefix }}First">{{ 'customer.first_name' | t }}</label><input class="input" id="{{ prefix }}First" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></div>
+  <div class="field"><label for="{{ prefix }}Last">{{ 'customer.last_name' | t }}</label><input class="input" id="{{ prefix }}Last" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></div>
+</div>
+<div class="field"><label for="{{ prefix }}Company">{{ 'customer.company' | t }}</label><input class="input" id="{{ prefix }}Company" name="address[company]" value="{{ form.company }}" autocomplete="organization"></div>
+<div class="field"><label for="{{ prefix }}Address1">{{ 'customer.address1' | t }}</label><input class="input" id="{{ prefix }}Address1" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></div>
+<div class="field"><label for="{{ prefix }}Address2">{{ 'customer.address2' | t }}</label><input class="input" id="{{ prefix }}Address2" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2"></div>
+<div class="grid grid--2" style="gap:0 1rem">
+  <div class="field"><label for="{{ prefix }}City">{{ 'customer.city' | t }}</label><input class="input" id="{{ prefix }}City" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></div>
+  <div class="field"><label for="{{ prefix }}Zip">{{ 'customer.zip' | t }}</label><input class="input" id="{{ prefix }}Zip" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></div>
+</div>
+<div class="grid grid--2" style="gap:0 1rem">
+  <div class="field">
+    <label for="{{ prefix }}Country">{{ 'customer.country' | t }}</label>
+    <select class="select" id="{{ prefix }}Country" name="address[country]" data-default="{{ form.country }}" autocomplete="country">{{ all_country_option_tags }}</select>
+  </div>
+  <div class="field"><label for="{{ prefix }}Province">{{ 'customer.province' | t }}</label><input class="input" id="{{ prefix }}Province" name="address[province]" value="{{ form.province }}" autocomplete="address-level1"></div>
+</div>
+<div class="field"><label for="{{ prefix }}Phone">{{ 'customer.phone' | t }}</label><input class="input" id="{{ prefix }}Phone" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+<label style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;font-size:.9375rem">
+  {{ form.set_as_default_checkbox }} {{ 'customer.set_default' | t }}
+</label>

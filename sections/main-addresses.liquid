@@ -1,0 +1,48 @@
+<div class="customer customer--wide page-width">
+  <h1>{{ 'customer.addresses' | t }}</h1>
+  <p class="text-center"><a href="{{ routes.account_url }}" class="link">&larr; {{ 'customer.account' | t }}</a></p>
+
+  <div class="cart-page">
+    <div>
+      {%- paginate customer.addresses by 10 -%}
+        {%- for address in customer.addresses -%}
+          <div class="testimonial" style="margin-bottom:1rem">
+            {%- if address == customer.default_address -%}<span class="badge">{{ 'customer.default' | t }}</span>{%- endif -%}
+            <p style="margin:0">{{ address | format_address }}</p>
+            <details>
+              <summary class="link" style="cursor:pointer">{{ 'customer.edit' | t }}</summary>
+              <div style="margin-top:1rem">
+                {%- form 'customer_address', address -%}
+                  {% render 'address-form', form: form, prefix: address.id %}
+                  <button type="submit" class="button button--primary">{{ 'customer.save' | t }}</button>
+                {%- endform -%}
+              </div>
+            </details>
+            <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" onsubmit="return confirm('Delete this address?');">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="cart-item__remove">{{ 'customer.delete' | t }}</button>
+            </form>
+          </div>
+        {%- endfor -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+    </div>
+    <aside class="cart-summary">
+      <h2 class="h4">{{ 'customer.add_address' | t }}</h2>
+      {%- form 'customer_address', customer.new_address -%}
+        {% render 'address-form', form: form, prefix: 'New' %}
+        <button type="submit" class="button button--primary button--full">{{ 'customer.save' | t }}</button>
+      {%- endform -%}
+    </aside>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('select[data-default]').forEach(function (s) {
+    if (s.dataset.default) s.value = s.dataset.default;
+  });
+</script>
+
+{% schema %}
+{ "name": "Addresses", "settings": [] }
+{% endschema %}

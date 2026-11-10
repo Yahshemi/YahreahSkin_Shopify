@@ -1,0 +1,17 @@
+{%- comment -%}
+  Shows stars only when a reviews app has written the standard reviews.rating metafield.
+  Never shows made-up numbers.
+{%- endcomment -%}
+{%- if product.metafields.reviews.rating.value != blank -%}
+  {%- liquid
+    assign rating = product.metafields.reviews.rating.value
+    assign rating_max = rating.scale_max | default: 5
+    assign pct = rating.rating | divided_by: rating_max | times: 100
+    assign count = product.metafields.reviews.rating_count | default: 0
+  -%}
+  <div class="rating">
+    <span class="rating__stars" style="--pct: {{ pct }}%;" aria-hidden="true"></span>
+    <span class="visually-hidden">{{ 'accessibility.star_rating' | t: rating: rating.rating, max: rating_max }}</span>
+    {%- if count > 0 -%}<span>({{ count }})</span>{%- endif -%}
+  </div>
+{%- endif -%}

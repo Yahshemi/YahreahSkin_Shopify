@@ -1,0 +1,33 @@
+<section class="section"{% if section.settings.compact %} style="padding-top:0"{% endif %}>
+  <div class="page-width">
+    <div class="cta-banner reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="badge" style="background:var(--color-primary);color:#fff;margin-bottom:1rem">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        <h2>{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}<div>{{ section.settings.text }}</div>{%- endif -%}
+      </div>
+      {%- if section.settings.button_label != blank -%}
+        <div>
+          <a href="{{ section.settings.button_link }}" class="button button--light">{% render 'icon', name: 'sparkle' %} {{ section.settings.button_label | escape }} {% render 'icon', name: 'arrow' %}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Call to action banner",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Badge", "default": "60-second skin quiz" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Not sure where your routine starts?" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Answer a few quick questions about your skin and get an inside-out routine matched to you.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Find my routine" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Point this at your Skin Quiz page." },
+    { "type": "checkbox", "id": "compact", "label": "Remove top spacing", "default": true }
+  ],
+  "presets": [{ "name": "Call to action banner" }]
+}
+{% endschema %}

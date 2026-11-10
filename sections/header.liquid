@@ -1,0 +1,143 @@
+{%- liquid
+  assign menu = section.settings.menu
+-%}
+<header class="site-header">
+  <div class="page-width site-header__inner">
+    <div class="site-header__left">
+      <button type="button" class="icon-button site-header__menu-toggle" data-menu-open aria-controls="MobileMenu" aria-label="{{ 'accessibility.open_menu' | t }}">
+        {% render 'icon', name: 'menu' %}
+      </button>
+      <button type="button" class="icon-button" data-search-open aria-label="{{ 'accessibility.open_search' | t }}">
+        {% render 'icon', name: 'search' %}
+      </button>
+    </div>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 400 | image_tag:
+          alt: shop.name,
+          style: 'width: auto; max-height: var(--logo-height)',
+          widths: '200, 300, 400',
+          sizes: '200px',
+          preload: true
+        }}
+      {%- else -%}
+        <span class="site-header__logo-text">{{ section.settings.logo_text_main }}<span>{{ section.settings.logo_text_accent }}</span></span>
+      {%- endif -%}
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      <ul class="nav-list">
+        {%- for link in menu.links -%}
+          <li>
+            <a href="{{ link.url }}" class="nav-link{% if forloop.last and section.settings.highlight_last %} nav-link--cta{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+              {{ link.title | escape }}
+              {%- if link.links != blank %}{% render 'icon', name: 'chevron' %}{% endif -%}
+            </a>
+            {%- if link.links != blank -%}
+              <ul class="nav-dropdown">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="site-header__icons">
+      <button type="button" class="icon-button site-header__search-desktop" data-search-open aria-label="{{ 'accessibility.open_search' | t }}">
+        {% render 'icon', name: 'search' %}
+      </button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="icon-button site-header__account" aria-label="{{ 'accessibility.account' | t }}">
+          {% render 'icon', name: 'account' %}
+        </a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="icon-button" data-cart-open aria-label="{{ 'accessibility.open_cart' | t }}">
+        {% render 'icon', name: 'cart' %}
+        <span class="cart-count" data-cart-count data-count="{{ cart.item_count }}" aria-hidden="true">{% if cart.item_count > 0 %}{{ cart.item_count }}{% endif %}</span>
+        <span class="visually-hidden">{{ 'accessibility.cart_count' | t: count: cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} Mobile menu {%- endcomment -%}
+<div class="mobile-menu" id="MobileMenu" aria-hidden="true">
+  <div class="mobile-menu__overlay" data-menu-close></div>
+  <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.menu' | t }}">
+    <div class="mobile-menu__head">
+      <span class="site-header__logo-text">{{ section.settings.logo_text_main }}<span>{{ section.settings.logo_text_accent }}</span></span>
+      <button type="button" class="icon-button" data-menu-close aria-label="{{ 'general.close' | t }}" data-autofocus>{% render 'icon', name: 'close' %}</button>
+    </div>
+    <ul class="mobile-menu__list">
+      {%- for link in menu.links -%}
+        <li>
+          {%- if link.links != blank -%}
+            <details>
+              <summary>{{ link.title | escape }} {% render 'icon', name: 'chevron' %}</summary>
+              <ul>
+                <li><a href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          {%- else -%}
+            <a href="{{ link.url }}">{{ link.title | escape }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+    <div class="mobile-menu__foot">
+      {%- if section.settings.mobile_cta_label != blank and section.settings.mobile_cta_link != blank -%}
+        <a href="{{ section.settings.mobile_cta_link }}" class="button button--primary button--full">{{ section.settings.mobile_cta_label | escape }}</a>
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="button button--secondary button--full">
+          {%- if customer -%}{{ 'customer.account' | t }}{%- else -%}{{ 'customer.login' | t }}{%- endif -%}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} Search modal {%- endcomment -%}
+<div class="search-modal" id="SearchModal" aria-hidden="true">
+  <div class="search-modal__overlay" data-search-close></div>
+  <div class="search-modal__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.search' | t }}">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="page-width search-modal__form">
+      <input type="hidden" name="type" value="product">
+      <label for="SearchModalInput" class="visually-hidden">{{ 'general.search' | t }}</label>
+      <input id="SearchModalInput" class="input" type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" data-autofocus>
+      <button type="submit" class="button button--primary">{{ 'general.search' | t }}</button>
+      <button type="button" class="icon-button" data-search-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  :root { --logo-height: {{ section.settings.logo_height }}px; }
+  @media (max-width: 989px) { .site-header__search-desktop { display: none; } }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header-wrapper",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "range", "id": "logo_height", "label": "Logo height", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    { "type": "text", "id": "logo_text_main", "label": "Text logo (main)", "default": "Yahreah", "info": "Used when no logo image is uploaded." },
+    { "type": "text", "id": "logo_text_accent", "label": "Text logo (accent)", "default": " Skin" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "highlight_last", "label": "Highlight last menu item (e.g. Skin Quiz)", "default": true },
+    { "type": "header", "content": "Mobile menu" },
+    { "type": "text", "id": "mobile_cta_label", "label": "Button label", "default": "Take the skin quiz" },
+    { "type": "url", "id": "mobile_cta_link", "label": "Button link" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,87 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Yahreah Skin",
+    "theme_version": "1.0.0",
+    "theme_author": "Yahreah Skin",
+    "theme_documentation_url": "https://github.com/Yahshemi/YahreahSkin_Shopify",
+    "theme_support_url": "https://github.com/Yahshemi/YahreahSkin_Shopify"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Brand" },
+      { "type": "color", "id": "color_primary", "label": "Sage (primary buttons, accents)", "default": "#7C9F8A" },
+      { "type": "color", "id": "color_primary_dark", "label": "Deep forest (dark sections)", "default": "#2A3B30" },
+      { "type": "color", "id": "color_primary_light", "label": "Sage tint", "default": "#EEF4F0" },
+      { "type": "color", "id": "color_accent", "label": "Teal (Outside / topicals)", "default": "#A9C3C2" },
+      { "type": "color", "id": "color_accent_dark", "label": "Deep teal", "default": "#3B5A59" },
+      { "type": "color", "id": "color_taupe", "label": "Taupe (systems / bundles)", "default": "#B7A79D" },
+      { "type": "header", "content": "Base" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#212925" },
+      { "type": "color", "id": "color_text_subtle", "label": "Subtle text", "default": "#5C6760" },
+      { "type": "color", "id": "color_background", "label": "Page background", "default": "#FAF8F3" },
+      { "type": "color", "id": "color_surface", "label": "Alabaster surface", "default": "#F5F1E8" },
+      { "type": "color", "id": "color_border", "label": "Borders", "default": "#E2DBD0" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Headings", "default": "lora_n7" },
+      { "type": "font_picker", "id": "font_body", "label": "Body", "default": "lato_n4" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Page width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+      { "type": "range", "id": "radius", "label": "Card corner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 20 },
+      { "type": "range", "id": "radius_button", "label": "Button corner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 40 }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_secondary_image", "label": "Show second image on hover", "default": true },
+      { "type": "checkbox", "id": "card_show_type", "label": "Show product type label", "default": true },
+      { "type": "checkbox", "id": "card_quick_add", "label": "Show add to cart button on cards", "default": true },
+      {
+        "type": "paragraph",
+        "content": "Tag products with \"inside\", \"outside\" or \"system\" to color their labels. Ratings appear automatically when a reviews app (Judge.me, Okendo, Shopify Product Reviews) fills the product rating metafield."
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "When a customer adds to cart",
+        "options": [
+          { "value": "drawer", "label": "Open cart drawer" },
+          { "value": "page", "label": "Go to cart page" }
+        ],
+        "default": "drawer"
+      },
+      { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold (0 hides the bar)", "min": 0, "max": 200, "step": 5, "unit": "$", "default": 75 }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest URL" }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon (32 x 32 px)" }
+    ]
+  }
+]

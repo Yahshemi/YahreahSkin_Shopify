@@ -1,0 +1,22 @@
+{%- comment -%}
+  Usage: {% render 'price', product: product, variant: variant, large: true %}
+{%- endcomment -%}
+{%- liquid
+  assign target = variant | default: product.selected_or_first_available_variant
+  assign compare = target.compare_at_price
+  assign price = target.price
+  if variant == blank and product.price_varies
+    assign price = product.price_min
+  endif
+-%}
+<div class="price{% if large %} price--large{% endif %}" {% if large %}data-price{% endif %}>
+  {%- if compare > price -%}
+    <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+    <span class="price__compare">{{ compare | money }}</span>
+    <span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+  {%- endif -%}
+  <span>
+    {%- if variant == blank and product.price_varies -%}From {% endif -%}
+    {{ price | money }}
+  </span>
+</div>

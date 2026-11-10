@@ -1,0 +1,127 @@
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+<div class="page-width">
+  <div class="collection-hero">
+    <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+    <h1>{{ collection.title | escape }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection-hero__description rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_category_links and linklists[section.settings.category_menu].links.size > 0 -%}
+    <nav class="collection-tabs" aria-label="Categories">
+      {%- for link in linklists[section.settings.category_menu].links -%}
+        <a href="{{ link.url }}" class="pill"{% if link.active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.per_page -%}
+    <div class="collection-toolbar">
+      {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
+        <form class="filters" data-filter-form action="{{ collection.url }}">
+          <input type="hidden" name="sort_by" value="{{ sort_by }}">
+          {%- for filter in collection.filters -%}
+            <details class="filter-dropdown">
+              <summary class="pill">{{ filter.label | escape }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %} {% render 'icon', name: 'chevron' %}</summary>
+              <div class="filter-dropdown__panel">
+                {%- case filter.type -%}
+                  {%- when 'price_range' -%}
+                    <div class="filter-dropdown__price">
+                      <input class="input" type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" placeholder="Min" aria-label="Min price">
+                      <input class="input" type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" placeholder="Max" aria-label="Max price">
+                    </div>
+                    <button type="submit" class="button button--small button--primary" style="margin-top:.75rem">{{ 'collections.apply' | t }}</button>
+                  {%- else -%}
+                    {%- for value in filter.values -%}
+                      <label>
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                        {{ value.label | escape }} <span class="subtle">({{ value.count }})</span>
+                      </label>
+                    {%- endfor -%}
+                {%- endcase -%}
+              </div>
+            </details>
+          {%- endfor -%}
+        </form>
+      {%- else -%}
+        <span></span>
+      {%- endif -%}
+
+      <div style="display:flex;align-items:center;gap:1rem">
+        <span class="collection-toolbar__count">{{ 'collections.products_count' | t: count: collection.products_count }}</span>
+        {%- if section.settings.enable_sorting -%}
+          <label for="SortBy" class="visually-hidden">{{ 'collections.sort_by' | t }}</label>
+          <select id="SortBy" class="select" data-sort-by>
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+            {%- endfor -%}
+          </select>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- liquid
+      assign active_count = 0
+      for filter in collection.filters
+        assign active_count = active_count | plus: filter.active_values.size
+        if filter.type == 'price_range'
+          if filter.min_value.value != nil or filter.max_value.value != nil
+            assign active_count = active_count | plus: 1
+          endif
+        endif
+      endfor
+    -%}
+    {%- if active_count > 0 -%}
+      <div class="active-filters">
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <a href="{{ value.url_to_remove }}" class="pill">{{ value.label | escape }} &times;</a>
+          {%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <a href="{{ filter.url_to_remove }}" class="pill">{{ filter.min_value.value | default: 0 | money }} &ndash; {{ filter.max_value.value | default: filter.range_max | money }} &times;</a>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="link" style="align-self:center">{{ 'collections.clear_all' | t }}</a>
+      </div>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="empty-state">
+        <p class="h3">{{ 'collections.empty' | t }}</p>
+        <a href="{{ collection.url }}" class="button button--primary" style="margin-top:1rem">{{ 'collections.clear_all' | t }}</a>
+      </div>
+    {%- endif -%}
+
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+<div style="height: clamp(3rem, 6vw, 5rem)"></div>
+
+{% schema %}
+{
+  "name": "Product grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Shop" },
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    {
+      "type": "select", "id": "columns", "label": "Desktop columns", "default": "4",
+      "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }]
+    },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "default": true, "info": "Set up filters with the Shopify Search & Discovery app (e.g. skin concern, product type)." },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
+    { "type": "checkbox", "id": "show_category_links", "label": "Show category pills", "default": true },
+    { "type": "link_list", "id": "category_menu", "label": "Category menu", "info": "e.g. All / Inside / Outside / Systems" }
+  ]
+}
+{% endschema %}
